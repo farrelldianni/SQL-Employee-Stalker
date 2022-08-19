@@ -1,0 +1,12 @@
+{
+  "name": "sql-employee-stalker",
+  "version": "1.0.0",
+  "description": "SQL based employee tracker",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "farrelldianni",
+  "license": "ISC"
+}
