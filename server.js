@@ -83,31 +83,61 @@ async function viewAllDepartments() {
 
 async function viewAllEmployees() {
     try {
-        const results = await db.query(`
+      const results = await db.query(`
             SELECT employee.id,
-                employee.first_name,
-                employee.last_name,
-                role.title,
-                department.name as department,
-                role.salary,
-                CONCAT(m.first_name, ' ', m.last_name ) as manager
+                   employee.first_name,
+                   employee.last_name,
+                   role.title,
+                   department.name as department,
+                   role.salary,
+                   CONCAT( m.first_name, ' ', m.last_name ) as manager
             FROM employee
-            JOIN role ON employee.id = employee.role_id
+            JOIN role ON role.id = employee.role_id
             LEFT JOIN department ON department.id = role.department_id
-            LEFT JOIN employee m ON employee.manager_id = m.id`);    
-        console.table(results);
+            LEFT JOIN employee m ON employee.manager_id = m.id;`);
+      console.table(results);
     } catch (err) {
-        console.error(err);
+      console.error(err);
     }
-}
+  }
 
 async function viewAllRoles() {
-
+    try {
+        const results = await db.query(`
+            SELECT role.id,
+                role.title,
+                department.name as department,
+                role.salary
+            FROM role
+            LEFT JOIN department ON department.id = role.department_id`);
+        console.table(results)
+        } catch (err) {
+            console.error(err);
+        }
 }
 
 async function addDepartment() {
-
-}
+    const { name } = await inquirer.prompt([
+        {
+          type: "input",
+          message: "What is the new department name?",
+          name: "name",
+        },
+      ]);
+    
+      try {
+        await db.query(
+          `
+              INSERT INTO department (name)
+              VALUES (?)
+              `,
+          name
+        );
+        console.log(`Added ${name} to the database`);
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
 async function addEmployee() {
     let roleChoice = await db.query(
@@ -145,6 +175,46 @@ async function addEmployee() {
 }
 
 async function updateEmployeeRole() {
+    const employees = await db.query(`
+        SELECT id AS value, 
+            CONCAT( first_name, ' ', last_name) AS name
+            FROM employee
+        `);
+    
+    const roles = await db.query(`
+        SELECT id AS value, 
+            title AS name
+            FROM role
+        `);
 
+    const { id, role_id} = await inquirer.prompt ([
+        {
+            type: 'list',
+            message: "which employee would you like to update?",
+            name: 'id',
+            choices: employees,
+        },
+        {
+            type: 'list',
+            message: "which role should be added?",
+            name: "role_id",
+            choices: roles,
+        },
+    ]);
+
+    try {
+        await db.query(`
+            UPDATE employee
+            SET role_id = ?
+            WHERE id = ?
+        `,
+        [role_id, id]
+        );
+        console.log(`updated employee ${id}`)
+        } catch (err) {
+            console.log(err);
+        }
 }
+
+
 
