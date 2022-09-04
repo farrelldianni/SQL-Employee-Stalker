@@ -19,7 +19,7 @@ const db = mysql.createConnection({
 db.query = util.promisify(db.query);
 
 ////////////////////////////////////////////////////////////////
-//start new loop 
+//base questions 
 init();
 async function init() {
     const {action} = await inquirer.prompt ([
@@ -65,6 +65,31 @@ async function init() {
             return null;
     }
     init();
-
-
 }
+
+async function viewAllDepartments() {
+    try {
+        const results = await db.query(`
+            SELECT role.id,
+                role.title,
+                department.name as department,
+                role.salary
+            FROM role
+            LEFT JOIN department ON department.id - role.department_id;`);
+        console.table(results);
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
+}
+
+async function viewAllEmployees() {}
+
+async function viewAllRoles() {}
+
+async function addDepartment() {}
+
+async function addEmployee() {}
+
+async function updateEmployeeRole() {}
+
