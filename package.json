@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/farrelldianni/SQL-Employee-Stalker#readme",
   "dependencies": {
-    "inquirer": "^8.2.4"
+    "console.table": "^0.10.0",
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.3.3",
+    "util": "^0.12.4"
   }
 }
