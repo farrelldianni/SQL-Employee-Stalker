@@ -8,5 +8,16 @@
     "start": "node server.js"
   },
   "author": "farrelldianni",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farrelldianni/SQL-Employee-Stalker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/farrelldianni/SQL-Employee-Stalker/issues"
+  },
+  "homepage": "https://github.com/farrelldianni/SQL-Employee-Stalker#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4"
+  }
 }
