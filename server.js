@@ -79,7 +79,6 @@ async function viewAllDepartments() {
         console.table(results);
     } catch (err) {
         console.log(err);
-        throw err;
     }
 }
 
