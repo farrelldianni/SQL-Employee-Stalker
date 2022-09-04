@@ -11,7 +11,6 @@ const db = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     //no password
-    password: "",
     database: "employee_db",
 });
 
@@ -82,13 +81,70 @@ async function viewAllDepartments() {
     }
 }
 
-async function viewAllEmployees() {}
+async function viewAllEmployees() {
+    try {
+        const results = await db.query(`
+            SELECT employee.id,
+                employee.first_name,
+                employee.last_name,
+                role.title,
+                department.name as department,
+                role.salary,
+                CONCAT(m.first_name, ' ', m.last_name ) as manager
+            FROM employee
+            JOIN role ON employee.id = employee.role_id
+            LEFT JOIN department ON department.id = role.department_id
+            LEFT JOIN employee m ON employee.manager_id = m.id`);    
+        console.table(results);
+    } catch (err) {
+        console.error(err);
+    }
+}
 
-async function viewAllRoles() {}
+async function viewAllRoles() {
 
-async function addDepartment() {}
+}
 
-async function addEmployee() {}
+async function addDepartment() {
 
-async function updateEmployeeRole() {}
+}
+
+async function addEmployee() {
+    let roleChoice = await db.query(
+        "SELECT id AS value, title AS name FROM role"
+    );
+
+    let managerChoices = await db.query(`
+        SELECT id as value, CONCAT( first_name, ' ', last_name) as name
+        FROM employee`);
+
+    const { first_name, last_name, role_id, manager_id } = await inquirer.prompt ([
+        {
+            type: 'input',
+            message: 'What is the employee name?',
+            name: "first_name",
+        },
+        {
+            type: 'input',
+            message: "Last name?",
+            name:"last_name",
+        },
+        {
+            type: "list",
+            choices: roleChoice,
+            message: "What is the employee's role?",
+            name: "role_id",
+        },
+        {
+            type:"list",
+            choices: managerChoices,
+            message: "Who is the employee's manager?",
+            name: "manager_id",
+        },
+    ]);
+}
+
+async function updateEmployeeRole() {
+
+}
 
