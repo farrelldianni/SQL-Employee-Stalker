@@ -69,12 +69,12 @@ async function init() {
 async function viewAllDepartments() {
     try {
         const results = await db.query(`
-            SELECT role.id,
+            SELECT 
                 role.title,
                 department.name as department,
                 role.salary
             FROM role
-            LEFT JOIN department ON department.id - role.department_id;`);
+            RIGHT JOIN department ON department.id - role.department_id;`);
         console.table(results);
     } catch (err) {
         console.log(err);

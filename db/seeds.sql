@@ -41,7 +41,6 @@ VALUES (1, 'Tony', 'Soprano', 1, NULL),
        (4, 'Silvio', 'Dante', 6, 1),
        (5, 'Lawrence', 'Barese', 7, 1);
 
--- These employees have no one reporting to them, so don't need to set an id --
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
        ('Christopher', 'Moltistani', 18, 2),
