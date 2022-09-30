@@ -2,6 +2,8 @@
 
 A small SQL based employee management tool. This type of tool is also known as a CMS (Content Management System)
 
+You can view a demo of this tool [here](https://www.youtube.com/watch?v=vNJTTexoVEE)
+
 ## Table of Contents
 
 - [Installation](#installation)
